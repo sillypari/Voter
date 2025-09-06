@@ -7,6 +7,11 @@ app.secret_key = os.urandom(24)  # Required for flash messages
 # Ensure the data directory exists
 os.makedirs('data', exist_ok=True)
 
+# Health check endpoint for Railway
+@app.get('/health')
+def health():
+    return ('OK', 200)
+
 # List of candidates
 CANDIDATES = [
     "Adarsh Singh",
