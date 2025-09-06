@@ -59,4 +59,6 @@ def vote():
     return render_template('vote.html', candidates=CANDIDATES)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os as _os
+    _port = int(_os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=_port, debug=False)
