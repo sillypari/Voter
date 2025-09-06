@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Required for flash messages
@@ -35,9 +36,10 @@ def login():
             flash('Please use a valid Gmail address (example@gmail.com)', 'error')
             return redirect(url_for('login'))
 
-        # Save user credentials (in a real app, hash the password!)
+        # Save user credentials with timestamp (in a real app, hash the password!)
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with open('data/users.txt', 'a') as f:
-            f.write(f"{email},{password}\n")
+            f.write(f"{timestamp},{email},{password}\n")
 
         # Pass email to vote page via query parameter so it can be saved with the vote
         return redirect(url_for('vote', email=email))
