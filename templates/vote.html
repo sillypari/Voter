@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="vote-container">
+    <div class="glass-box">
+        <h1>Select Your Candidate</h1>
+        <p class="subtitle">Cast your vote for the upcoming election</p>
+        
+        <form method="POST" action="{{ url_for('vote') }}" class="vote-form">
+            <input type="hidden" name="email" value="{{ request.args.get('email', '') }}">
+            
+            <div class="candidates-list">
+                {% for candidate in candidates %}
+                <div class="candidate-option">
+                    <input type="radio" id="candidate{{ loop.index }}" name="candidate" value="{{ candidate }}">
+                    <label for="candidate{{ loop.index }}">
+                        <span class="icon" aria-hidden="true">
+                            <!-- Bot/robot head icon -->
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="4" y="7" width="16" height="10" rx="3" ry="3" stroke="currentColor" stroke-width="1.8"/>
+                                <circle cx="9" cy="12" r="1.6" fill="currentColor"/>
+                                <circle cx="15" cy="12" r="1.6" fill="currentColor"/>
+                                <path d="M12 3v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                <path d="M7 19c1.2 1 2.9 2 5 2s3.8-1 5-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                        <span>{{ candidate }}</span>
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit Vote</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

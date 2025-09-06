@@ -1,0 +1,543 @@
+/* Base Styles */
+:root {
+    --accent-color: #21808D;
+    --accent-hover: #2a9ba8;
+    --text-color: #f0f0f0;
+    --bg-gradient-start: #1a237e;
+    --bg-gradient-end: #0d1333;
+    --glass-bg: rgba(255, 255, 255, 0.10);
+    --glass-border: rgba(255, 255, 255, 0.30);
+    --white: #ffffff;
+}
+
+/* Very subtle corner glows to fill empty space */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.08; /* very subtle */
+    background:
+      radial-gradient(600px 600px at -10% -10%, rgba(33,128,141,0.22), transparent 60%),
+      radial-gradient(500px 500px at 110% 110%, rgba(33,128,141,0.18), transparent 60%);
+    animation: corner-drift 80s ease-in-out infinite alternate, corner-pulse 10s ease-in-out infinite;
+}
+
+@keyframes corner-drift {
+    0% { background-position: -10% -10%, 110% 110%; }
+    100% { background-position: -6% -14%, 106% 114%; }
+}
+
+@keyframes corner-pulse {
+    0%, 100% { opacity: 0.06; }
+    50% { opacity: 0.1; }
+}
+
+/* Powered by Google (under login card) */
+.powered {
+    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--white);
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+.powered .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    opacity: 0.95;
+}
+
+.powered .g-text {
+    position: relative;
+    color: var(--white); /* text remains white */
+}
+
+.powered .g-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: underline-sweep 1.8s ease-in-out infinite;
+}
+
+@keyframes underline-sweep {
+    0%   { transform: scaleX(0); opacity: 0.5; }
+    50%  { transform: scaleX(1); opacity: 1; }
+    100% { transform: scaleX(0); opacity: 0.5; }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    color: var(--text-color);
+    line-height: 1.6;
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    min-height: 100vh;
+    padding: 20px;
+    margin: 0;
+    position: relative;
+}
+
+/* Subtle animated specks (desktop and mobile) */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.06;
+    background:
+      radial-gradient(circle, rgba(255,255,255,0.45) 0 1px, transparent 1.5px) 0 0/80px 80px,
+      radial-gradient(circle, rgba(255,255,255,0.35) 0 1px, transparent 1.5px) 40px 40px/90px 90px,
+      radial-gradient(circle, rgba(255,255,255,0.25) 0 1px, transparent 1.5px) 20px 60px/70px 70px;
+    animation: specks-drift 60s linear infinite;
+}
+
+@keyframes specks-drift {
+    0% { background-position: 0 0, 40px 40px, 20px 60px; }
+    100% { background-position: 200px 120px, 240px 200px, 180px 160px; }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Subtle 3D parallax layers */
+.parallax-3d {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0; /* behind content */
+    overflow: hidden;
+    perspective: 800px;
+}
+
+.parallax-3d .layer {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(24px);
+    opacity: 0.08; /* very subtle */
+    transform: translate3d(0,0,0);
+    will-change: transform;
+}
+
+.parallax-3d .l1 {
+    width: 420px; height: 420px;
+    top: -120px; right: -120px;
+    background: radial-gradient(circle at 40% 40%, rgba(33,128,141,0.28), transparent 60%);
+}
+.parallax-3d .l2 {
+    width: 360px; height: 360px;
+    bottom: -140px; left: -100px;
+    background: radial-gradient(circle at 60% 60%, rgba(255,255,255,0.18), transparent 65%);
+}
+.parallax-3d .l3 {
+    width: 280px; height: 280px;
+    top: 20%; left: 55%;
+    background: radial-gradient(circle at 50% 50%, rgba(33,128,141,0.22), transparent 65%);
+}
+
+@media (max-width: 640px) {
+    .parallax-3d .l1 { width: 300px; height: 300px; top: -100px; right: -100px; opacity: 0.07; }
+    .parallax-3d .l2 { width: 260px; height: 260px; bottom: -110px; left: -80px; opacity: 0.07; }
+    .parallax-3d .l3 { width: 220px; height: 220px; top: 35%; left: 55%; opacity: 0.06; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .parallax-3d { display: none; }
+}
+
+/* Header / Brand */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+}
+
+.brand {
+    color: var(--white);
+    font-weight: 500; /* Inter 500 for brand */
+    letter-spacing: 0.5px;
+    font-size: 1.25rem;
+    position: relative;
+}
+
+.brand::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -6px;
+    width: 56px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    opacity: 0.9;
+}
+
+/* Decorative Left Space */
+.decor-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 28vw;               /* narrower for less visual weight */
+    max-width: 420px;          /* smaller max width */
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.decor-left .blob {
+    position: absolute;
+    filter: blur(24px);        /* softer edges */
+    opacity: 0.18;             /* lower opacity */
+    background: radial-gradient(circle at 30% 30%, rgba(33,128,141,0.5), rgba(33,128,141,0.1) 60%, transparent 70%);
+    border-radius: 50%;
+    animation: float 18s ease-in-out infinite; /* slower */
+}
+
+.decor-left .blob-1 { width: 380px; height: 380px; top: 10%; left: -80px; animation-delay: 0s; }
+.decor-left .blob-2 { width: 260px; height: 260px; top: 50%; left: 40px; animation-delay: 4s; }
+.decor-left .blob-3 { width: 320px; height: 320px; top: 75%; left: -60px; animation-delay: 8s; }
+
+.decor-left .rings {
+    position: absolute;
+    top: 20%;
+    left: 60%;
+    width: 240px;              /* smaller ring */
+    height: 240px;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 2px rgba(255,255,255,0.05),
+        0 0 0 14px rgba(33,128,141,0.04),
+        0 0 0 28px rgba(255,255,255,0.03);
+    animation: pulse 14s ease-in-out infinite; /* slower pulse */
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+    50% { transform: translateY(-8px) translateX(4px) scale(1.02); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.06); opacity: 1; }
+}
+
+/* Mobile Decorative Elements (hidden by default) */
+.decor-mobile { display: none; }
+.decor-mobile .m-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(16px);
+    opacity: 0.22;             /* less prominent */
+    background: radial-gradient(circle at 30% 30%, rgba(33,128,141,0.4), rgba(33,128,141,0.1) 60%, transparent 70%);
+    animation: float-m 18s ease-in-out infinite; /* slower */
+}
+.decor-mobile .m-1 { width: 180px; height: 180px; top: -30px; left: -30px; animation-delay: 0s; }
+.decor-mobile .m-2 { width: 150px; height: 150px; bottom: 12%; right: -20px; animation-delay: 3s; }
+.decor-mobile .m-3 { width: 140px; height: 140px; bottom: -24px; left: 20%; animation-delay: 6s; }
+
+.decor-mobile .m-sparkles {
+    position: absolute;
+    bottom: 15%;
+    left: 10%;
+    width: 80%;
+    height: 40%;
+    background:
+      radial-gradient(circle, rgba(255,255,255,0.25) 0 2px, transparent 3px) 10% 20%/8px 8px,
+      radial-gradient(circle, rgba(255,255,255,0.18) 0 2px, transparent 3px) 60% 70%/10px 10px,
+      radial-gradient(circle, rgba(255,255,255,0.15) 0 2px, transparent 3px) 80% 30%/9px 9px;
+    animation: twinkle 3.4s ease-in-out infinite; /* slower twinkle */
+}
+
+@keyframes float-m {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-6px) scale(1.02); }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.4; }
+}
+
+/* Glassmorphism Effect */
+.glass-box {
+    background: var(--glass-bg);
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    padding: 2.5rem;
+    box-shadow: 0 4px 32px rgba(33, 128, 141, 0.2);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    max-width: 500px;
+    margin: 2rem auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 1; /* above decor-left */
+}
+
+.glass-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 40px rgba(33, 128, 141, 0.3);
+}
+
+/* Typography */
+h1 {
+    font-weight: 500; /* Inter 500 for headings */
+    color: var(--white); /* Use white, not accent, for text */
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--white); /* Use white for label text */
+    opacity: 0.95;
+}
+
+/* Labels with inline icons */
+.with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--white); /* ensure text stays white */
+}
+
+.with-icon .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: var(--white); /* icons monochrome white */
+    opacity: 0.95;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(33, 128, 141, 0.3);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500; /* Inter 500 for strong buttons */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Candidate Selection */
+.candidates-list {
+    margin: 2rem 0;
+}
+
+.candidate-option {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.candidate-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.candidate-option input[type="radio"] {
+    margin-right: 1rem;
+    transform: scale(1.2);
+}
+
+.candidate-option label {
+    color: var(--white); /* Candidate name in white */
+    font-weight: 500; /* Inter 500 for names */
+    font-size: 1.05rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.candidate-option label .icon {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    opacity: 0.95;
+}
+
+/* Alerts */
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 400;
+}
+
+.alert-error {
+    background-color: rgba(220, 53, 69, 0.2);
+    border-left: 4px solid #dc3545;
+}
+
+.alert-success {
+    background-color: rgba(25, 135, 84, 0.2);
+    border-left: 4px solid #198754;
+}
+
+/* Animated check icon in success alerts */
+.alert-success .icon-check svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.alert-success .icon-check path {
+    stroke: #19d27a;
+    stroke-width: 3;
+    fill: none;
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+    animation: draw-check 0.6s ease forwards;
+}
+
+@keyframes draw-check {
+    to { stroke-dashoffset: 0; }
+}
+
+/* Brand typing animation */
+.brand .type {
+    color: var(--white); /* Keep text white */
+    display: inline-block;
+    overflow: hidden;             /* Ensure hidden while typing */
+    white-space: nowrap;
+    border-right: 2px solid var(--accent-color); /* caret uses accent (rim) */
+    letter-spacing: 0.5px;
+    animation: typing 2.2s steps(7, end) 0.2s 1 forwards, blink 0.8s step-end infinite 2.4s;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to   { width: 7ch; }
+}
+
+@keyframes blink {
+    0%, 100% { border-right-color: transparent; }
+    50% { border-right-color: var(--accent-color); }
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .decor-left .blob, .decor-left .rings { animation: none !important; }
+    .brand .type { animation: none; border-right: none; }
+    body::before { animation: none; }
+    body::after { animation: none; }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .glass-box {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    .btn {
+        padding: 0.7rem 1.5rem;
+    }
+    
+    .candidate-option {
+        padding: 0.8rem;
+    }
+    .decor-left { display: none; }
+    .decor-mobile {
+        display: block;
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    /* Slightly stronger specks on mobile to fill space (still subtle) */
+    body::before { opacity: 0.08; animation-duration: 75s; }
+    body::after { opacity: 0.09; animation-duration: 95s; }
+}

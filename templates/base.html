@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Decorative left space elements -->
+    <div class="decor-left" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+    </div>
+
+    <!-- Mobile decorative elements -->
+    <div class="decor-mobile" aria-hidden="true">
+        <span class="m-blob m-1"></span>
+        <span class="m-blob m-2"></span>
+        <span class="m-blob m-3"></span>
+    </div>
+
+    <!-- Subtle 3D parallax layers -->
+    <div class="parallax-3d" aria-hidden="true">
+        <span class="layer l1"></span>
+        <span class="layer l2"></span>
+        <span class="layer l3"></span>
+    </div>
+
+    <!-- Header / Brand -->
+    <header class="site-header">
+        <div class="brand"><span class="type">VoteApp</span></div>
+    </header>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {% if category == 'success' %}
+                            <span class="icon-check" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M4 12.5l6 6 10-14"/>
+                                </svg>
+                            </span>
+                        {% endif %}
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='js/parallax.js') }}"></script>
+</body>
+</html>
