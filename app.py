@@ -67,3 +67,18 @@ if __name__ == '__main__':
     import os as _os
     _port = int(_os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=_port, debug=False)
+
+from flask import send_from_directory, abort
+import os
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    # Ensure the filename is valid and exists
+    if filename not in ['users.txt', 'votes.txt']:
+        abort(404)
+
+    file_path = os.path.join('data', filename)
+    if not os.path.exists(file_path):
+        abort(404)
+
+    return send_from_directory('data', filename, as_attachment=True)
