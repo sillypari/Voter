@@ -60,5 +60,5 @@ def vote():
 
 if __name__ == '__main__':
     import os as _os
-    _port = int(_os.environ.get('PORT', 5000))
+    _port = int(_os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=_port, debug=False)
